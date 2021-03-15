@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheet.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" ></script>
+    <title>Liked Events</title>
+</head>
+<body>
+    <nav style="background: #4682B4;">
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label> 
+        <label class="logo" style="color: white;">EventsMart</label>
+        <ul>
+            <li><a class="active" href="/">Browse Events</a></li>
+            <li><a href="create">Host an Event</a></li>
+            <li><a href="liked">Liked Events</a></li>
+        </ul>
+    </nav>
+
+    <h1 style="margin: 2rem auto; text-align:center; color:darkblue">Liked Events</h1>
+    <table class="center" cellspacing="50px">
+    {% for i in e %}
+    <tr>
+        {% if i.is_liked %}
+        <div class="text-center" style='margin: 1rem auto; text-align:left;' >
+            <div class="text-center mt-2" >
+                <td style="width:250px; height:250px;">
+                    <img src="{{i.image.url}}" style="max-height:100%; max-width:100%" class="img-thumbnail" alt="..." style="background-size: contain;">
+                </td>
+            <td>
+                <h3 class="text-center"> Event Name: {{i.event_name}}<br>
+             Date: {{i.date}}<br>
+             Time: {{i.time}}<br>
+             Location: {{i.location}}
+            </h3>
+            </td>
+            <td>
+                <span style="text-align:left;color:red"><i class="fa fa-heart" aria-hidden="true" ></i>
+            </td>
+            </div>
+        </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:3 %}
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

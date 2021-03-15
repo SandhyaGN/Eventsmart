@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheet.css' %}" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" ></script>
+    <style>
+        .fa-heart-o {
+      color: red;
+      cursor: pointer;
+    }
+    
+    .fa-heart {
+      color: red;
+      cursor: pointer;
+    }
+     </style>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>EventsMart</title>
+</head>
+<body>
+    <nav style="background: #4682B4;">
+        <input type="checkbox" id="check">
+        <label for="check" class="checkbtn">
+            <i class="fas fa-bars"></i>
+        </label> 
+        <label class="logo" style="color: white;">EventsMart</label>
+        <ul>
+            <li><a class="active" href="/">Browse Events</a></li>
+            <li><a href="create">Host an Event</a></li>
+            <li><a href="liked">Liked Events</a></li>
+        </ul>
+    </nav>
+
+
+    <div>
+        <table class="center" cellspacing="50px" style="margin:0 auto">
+    {% for i in e %}
+    <tr>
+        {% if forloop.first %}<div class="column">{% endif %}
+            <div class="text-center" style='margin: 0 auto;text-align:left;' >
+        <div class="text-center mt-2" >
+            
+                <td style="width:250px; height:250px;">
+                    <img src="{{i.image.url}}" style="max-height:100%; max-width:100%" class="img-thumbnail" alt="..." style="background-size: contain;">
+                </td>
+            <td>
+                <h3 class="text-center"> Event Name: {{i.event_name}}<br>
+             Date: {{i.date}}<br>
+             Time: {{i.time}}<br>
+             Location: {{i.location}}
+            </h3>
+            </td>
+            <td>
+                <div id="box">
+                    {% if i.is_liked %}
+                        <span id = {{i.id}} style="text-align:left;"><i class="fa fa-heart" aria-hidden="true" ></i>
+                    {% else %}
+                        <span id = {{i.id}} style="text-align:left;"><i class="fa fa-heart-o" aria-hidden="true" ></i>
+                    {% endif %}        
+                        <script>
+                        $(document).ready(function(){
+                        $("#{{i.id}}").click(function(){
+                            var id=$(this).attr("id")
+                             if($("#{{i.id}}").hasClass("liked")){
+                                $("#{{i.id}}").html('<i class="fa fa-heart-o" aria-hidden="true"></i>');
+                                $("#{{i.id}}").removeClass("liked");
+                            }
+                            else{
+                                  $("#{{i.id}}").html('<i class="fa fa-heart" aria-hidden="true"></i>');
+                                  $("#{{i.id}}").addClass("liked");
+                              }
+                        $.ajax( 
+                        { 
+                            type:"GET", 
+                            url: "likedevent", 
+                            data:{ 
+                                     i_id: id
+                            },
+                        success: function( data ) 
+                        {}
+                         }); }); });
+                        </script>
+                </span>
+            </div>
+            </td>
+            </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}
+        </div>
+        <div class="row">{% endif %}
+        
+            {% if forloop.last %}</div>{% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+</body>
+</html>
