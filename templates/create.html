@@ -1,0 +1,52 @@
+{% load static %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheet.css' %}" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" ></script>
+    <title>Create Form</title>
+</head>
+<body>
+  <nav style="background: #4682B4;">
+    <input type="checkbox" id="check">
+    <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+    </label> 
+    <label class="logo" style="color: white;">EventsMart</label>
+    <ul>
+        <li><a class="active" href="/">Browse Events</a></li>
+        <li><a href="create">Host an Event</a></li>
+        <li><a href="liked">Liked Events</a></li>
+    </ul>
+</nav>
+
+    <h1 style="margin:1rem auto; text-align:center;">Creating a New Event</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" style="margin:1rem auto; text-align:center;">
+                <form action="create" method="post"  enctype="multipart/form-data">
+
+                    {% csrf_token %}
+                        {{ form.as_p }}
+                       
+                    <button type="submit" class="btn btn-lg btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+        {% if obj %}
+        <h3>Succesfully uploaded : </h3>
+        <h5 class="text-center"> Event Name: {{obj.event_name}}</h5>
+            <h5 class="text-center"> Date: {{obj.date}}</h5>
+            <h5 class="text-center"> Time: {{obj.time}}</h5>
+            <h5 class="text-center"> Location: {{obj.location}}</h5>
+        <img src="{{ obj.image.url}}" alt="image" class="img-thumbnail" height=40% width=40% >
+        {% endif %}
+        <hr>
+    </div>
+</body>
+</html>
